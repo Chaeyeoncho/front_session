@@ -1,0 +1,108 @@
+body {
+  margin: 0 200px;
+  overflow: scroll;
+}
+
+.navigation {
+  display: flex;
+  margin: 10px 30px;
+}
+
+nav {
+  width: 100%;
+}
+
+nav span {
+  display: flex;
+  align-items: center;
+}
+.title {
+  padding-left: 20px;
+  flex: 2;
+}
+
+#icon2 {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.profile {
+  display: flex;
+  margin: 30px;
+  gap: 5vw;
+}
+.profileImg {
+  width: 150px;
+  height: 150px;
+  border: 1px solid gray;
+  border-radius: 50%;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileleft {
+  display: flex;
+  align-items: center;
+}
+
+.profile img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: cover;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.number {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  align-items: center;
+  border-bottom: 1px solid gray;
+}
+
+.gridImg {
+  display: grid;
+  padding: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 5px;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+footer div {
+  position: fixed;
+  bottom: 0px;
+
+  width: calc(100% - 400px);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid gray;
+}
+a {
+  text-decoration-line: none;
+  color: black;
+}
+a:hover {
+  color: blue;
+}
