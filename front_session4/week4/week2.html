@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>로그인</title>
+    <link rel="stylesheet" href="../week4/week-2.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.querySelector(".loginForm");
+
+        // 폼 리셋 이벤트 발생 시 폼 초기화
+        loginForm.addEventListener("reset", function (event) {
+          // 로그인 버튼 비활성화
+          document.querySelector('button[type="submit"]').disabled = true;
+        });
+
+        // 입력 필드의 값이 변경될 때마다 로그인 버튼 활성화 여부 확인
+        const inputs = document.querySelectorAll(".loginForm input");
+        inputs.forEach((input) => {
+          input.addEventListener("input", toggleLoginButton);
+        });
+
+        // 로그인 버튼 클릭 시 로그인 시도
+        const loginButton = document.querySelector('button[type="submit"]');
+        loginButton.addEventListener("click", attemptLogin);
+      });
+
+      function toggleLoginButton() {
+        const emailValue = document.querySelector(".email").value;
+        const pwValue = document.querySelector(".pw").value;
+        const loginButton = document.querySelector('button[type="submit"]');
+
+        // 입력값이 모두 채워져 있고 비밀번호가 7자 이상인지 확인하여 로그인 버튼 활성화/비활성화
+        if (validateEmail(emailValue) && pwValue.length >= 7) {
+          loginButton.disabled = false;
+        } else {
+          loginButton.disabled = true;
+        }
+      }
+
+      function validateEmail(email) {
+        // 이메일 형식인지 확인하는 정규표현식
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function attemptLogin(event) {
+        event.preventDefault(); // 기본 이벤트(페이지 새로고침) 방지
+
+        const emailValue = document.querySelector(".email").value;
+        const pwValue = document.querySelector(".pw").value;
+
+        // 아이디가 'test@test.com' 비밀번호가 '1234567'인 경우에만 로그인 성공으로 가정
+        if (emailValue === "gcy9293@naver.com" && pwValue === "1234567") {
+          alert("정상적으로 로그인 되었습니다.");
+          // 로그인 성공 시 인스타그램 피드로 이동
+          window.location.href = "../week4/week3.html";
+        } else {
+          alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+          // 로그인 폼 리셋
+          document.querySelector(".loginForm").reset();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="loginBox">
+      <img src="../img/text_logo.png" alt="로고" class="logo" />
+      <form class="loginForm">
+        <div class="inputBox">
+          <input
+            type="text"
+            class="email"
+            placeholder="전화번호, 사용자 이름 또는 이메일"
+          />
+          <input type="password" class="pw" placeholder="비밀번호" />
+        </div>
+        <div class="buttonBox">
+          <button type="submit" disabled>로그인</button>
+        </div>
+      </form>
+      <div class="orBox">
+        <hr />
+        <span>또는</span>
+        <hr />
+      </div>
+      <div class="toFacebook">
+        <a href="#">Facebook으로 로그인</a>
+      </div>
+      <div class="forgetPw">
+        <a href="#">비밀번호를 잊으셨나요?</a>
+      </div>
+    </div>
+    <div class="toJoin">
+      <p class="regiText">
+        계정이 없으신가요? <a href="week4.html">가입하기</a>
+      </p>
+    </div>
+  </body>
+</html>

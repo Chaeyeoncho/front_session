@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>이벤트</title>
+  </head>
+  <body>
+    <p
+      onmouseover="this.style.backgroundColor='orchid'"
+      onmouseout="this.style.backgroundColor='white'"
+    >
+      HTML 태그 내 이벤트 리스너 작성
+    </p>
+
+    <section>
+      <p id="p1">DOM 객체의 이벤트 리스너 프로퍼티에 리스너 등록</p>
+    </section>
+
+    <section>
+      <p id="p2">addEventListener() 사용</p>
+    </section>
+
+    <section>
+      <p id="p3">익명 함수 사용</p>
+    </section>
+
+    <section>
+      <p id="e1">이벤트 리스너에서 이벤트 객체 전달 받기</p>
+      <button onclick="f1(event)">클릭</button>
+    </section>
+
+    <section>
+      <p id="e2">이벤트 객체의 프로퍼티 출력</p>
+      <button onclick="f2(event)">클릭</button>
+    </section>
+  </body>
+  <script>
+    var p1;
+    function init1() {
+      p1 = document.getElementById("p1");
+      p1.onmouseover = over1;
+      p1.onmouseout = out1;
+    }
+    function over1() {
+      p1.style.backgroundColor = "grey";
+    }
+    function out1() {
+      p1.style.backgroundColor = "white";
+    }
+    init1();
+
+    var p2;
+    function init2() {
+      p2 = document.getElementById("p2");
+      p2.addEventListener("mouseover", over2);
+      p2.addEventListener("mouseout", out2);
+    }
+    function over2() {
+      p2.style.backgroundColor = "skyblue";
+    }
+    function out2() {
+      p2.style.backgroundColor = "white";
+    }
+    init2();
+
+    var p3;
+    function init3() {
+      p3 = document.getElementById("p3");
+      p3.onmouseover = function () {
+        this.style.backgroundColor = "beige";
+      };
+      p3.addEventListener("mouseout", function () {
+        this.style.backgroundColor = "white";
+      });
+    }
+    init3();
+
+    function f1(e1) {
+      alert(e1.type);
+    }
+    document.getElementById("e1").onmouseover = f1;
+
+    function f2(e2) {
+      var text =
+        "type: " +
+        e2.type +
+        "<br>" +
+        "target: " +
+        e2.target +
+        "<br>" +
+        "currentTarget: " +
+        e2.currentTarget +
+        "<br>" +
+        "defaultPrevented: " +
+        e2.defaultPrevented;
+      var e2Element = document.getElementById("e2");
+      e2Element.innerHTML = text;
+    }
+  </script>
+</html>

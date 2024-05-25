@@ -1,0 +1,127 @@
+body {
+  width: 350px;
+  margin: 100px auto 0;
+  min-height: 500px;
+}
+
+.loginBox {
+  border: 1px solid #dbdbdb;
+  height: 402px;
+  padding: 0 40px;
+}
+
+.logo {
+  width: 195px;
+  margin: 30px auto 0;
+  display: block;
+}
+
+.inputBox {
+  margin-top: 30px;
+}
+
+input {
+  display: block;
+  border-radius: 4px;
+  padding: 10px 0 10px 10px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #fafafa;
+  border: none;
+  border: 1px solid #dfdfdf;
+  &::placeholder {
+    font-size: 12px;
+    font-weight: 350;
+  }
+  &:focus {
+    outline: none;
+    border: 1px solid gray;
+  }
+}
+
+.email {
+  margin-bottom: 6px;
+}
+
+.pw {
+  margin-bottom: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 8px;
+  background-color: #67b5fa;
+  border: none;
+  width: 100%;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.4s;
+  text-align: center;
+  cursor: pointer;
+}
+
+.loginBox button:disabled {
+  cursor: default;
+}
+
+.loginBox button[type="submit"]:not([disabled]) {
+  background-color: #0095f6;
+}
+
+.orBox {
+  margin-top: 10px;
+  hr {
+    display: inline-block;
+    width: 39%;
+    border: 1px solid #dbdbdb;
+  }
+  span {
+    display: inline-block;
+    margin: 3%;
+    color: #757575;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+
+.toFacebook {
+  margin: 22px 0 28px 0;
+  a {
+    text-decoration: none;
+    color: #385285;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.forgetPw {
+  a {
+    text-decoration: none;
+    color: #385285;
+    display: block;
+    text-align: center;
+    font-size: 12px;
+  }
+}
+
+.toJoin {
+  border: 1px solid #dfdfdf;
+  height: 63px;
+  margin-top: 10px;
+  .regiText {
+    text-align: center;
+    padding: 7px 0;
+    font-size: 14px;
+    a {
+      margin-left: 4px;
+      text-decoration: none;
+      color: #0095f6;
+      font-weight: bold;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

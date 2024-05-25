@@ -1,0 +1,186 @@
+body {
+  margin: 0 200px;
+  overflow: scroll;
+}
+
+nav {
+  width: 100%;
+  border-bottom: 3px solid black;
+}
+
+nav .navigation {
+  margin: 10px 30px;
+  display: flex;
+}
+
+nav span {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  padding-left: 20px;
+  flex: 2;
+}
+
+.icon1 {
+  width: 40px;
+  height: 40px;
+}
+
+#icon2 {
+  width: 40px;
+  height: 40px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+header {
+  width: 100%;
+  border-bottom: 3px solid black;
+}
+
+div.profile {
+  display: flex;
+  flex-direction: row;
+  margin: 30px;
+  gap: 5vw;
+}
+
+div.profileLeft {
+  display: flex;
+  align-items: center;
+}
+
+div.profileImg {
+  width: 150px;
+  height: 150px;
+  border: 1px solid gray;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileImg img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: cover;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: blue;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+div.number {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  align-items: center;
+  border-bottom: 1px solid gray;
+}
+
+div.gridImg {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+footer div {
+  position: fixed;
+  bottom: 0px;
+
+  width: calc(100% - 400px);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid gray;
+}
+
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  body {
+    margin: 0 auto;
+    overflow: scroll;
+  }
+  nav .navigation {
+    margin: 10px auto;
+    width: 90%;
+  }
+  div.profile {
+    margin: 30px auto;
+    max-width: 700px;
+  }
+  div.gridImg {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  footer div {
+    width: 100%;
+  }
+}
+
+@media all and (max-width: 767px) {
+  body {
+    margin: 0;
+    overflow: scroll;
+  }
+  nav .navigation {
+    margin: 10px 30px;
+    width: 85%;
+  }
+  .title {
+    text-align: center;
+    font-size: 80%;
+  }
+  .icon1,
+  #icon2 {
+    width: 32px;
+    height: 32px;
+  }
+  div.profile {
+    margin: 15px;
+  }
+  div.profileImg {
+    width: 100px;
+    height: 100px;
+  }
+  div.profileRight {
+    font-size: 80%;
+  }
+  div.number {
+    padding: 10px;
+  }
+  div.gridImg {
+    padding: 20px;
+  }
+  footer div {
+    width: 100%;
+  }
+}
