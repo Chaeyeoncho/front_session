@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 
 const Signin = () => {
-  const baseURL = "http://127.0.0.1:8080";
+  const baseURL = "http://localhost:8080";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -90,11 +90,11 @@ const Signin = () => {
           email: email,
           password: password,
           name: name,
-          username: username,
+          nickname: username,
         }),
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         window.location.href = "/";
       } else if (response.status === 400) {
         setErrorMessage("회원가입에 실패하였습니다. 다시 시도해주세요.");

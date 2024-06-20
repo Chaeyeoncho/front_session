@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -144,6 +145,15 @@ const ImagePost = () => {
   const [caption, setCaption] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [memberId, setMemberId] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const memberId = localStorage.getItem("id");
+    if (memberId) {
+      setMemberId(memberId);
+    }
+  }, []);
 
   const handleChange = (event) => {
     const text = event.target.value;
@@ -169,8 +179,37 @@ const ImagePost = () => {
     setSelectedFile(null);
   };
 
-  const upload = () => {
-    // 서버와 연동하여 업로드 기능 구현 필요
+  const upload = async () => {
+    try {
+      if (!selectedFile) {
+        alert("사진을 선택해주세요.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("context", caption);
+      formData.append("memberId", memberId);
+
+      const response = await fetch("http://127.0.0.1:8080/insta/upload", {
+        method: "POST",
+        body: formData,
+        headers: {},
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const textResponse = await response.text();
+      console.log("업로드 성공 - 게시글 id:", textResponse);
+      alert("성공적으로 업로드 되었습니다!");
+      navigate(`/`);
+    } catch (error) {
+      console.error("업로드 에러:", error);
+      alert("업로드 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -216,7 +255,6 @@ const ImagePost = () => {
             onChange={handleChange}
             maxLength={255}
           ></textarea>
-          <span className="charCount">{caption.length}/255</span>
           <button
             type="button"
             onClick={upload}

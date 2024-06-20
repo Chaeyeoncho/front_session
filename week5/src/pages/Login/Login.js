@@ -1,16 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Login = () => {
   const baseURL = "http://127.0.0.1:8080";
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(true);
+  const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    toggleJoinButton();
+    const toggleLoginButton = () => {
+      let isEmailValid = validateEmail(email);
+      let isPasswordValid = password.length >= 7;
+
+      setIsLoginButtonDisabled(
+        !(isEmailValid && isPasswordValid && email && password)
+      );
+    };
+    toggleLoginButton();
   }, [email, password]);
 
   const handleEmailChange = (e) => {
@@ -24,24 +33,8 @@ const Login = () => {
   const handleReset = () => {
     setEmail("");
     setPassword("");
-    setIsJoinButtonDisabled(true);
-  };
-
-  const toggleJoinButton = () => {
-    let isEmailValid = true;
-    let isPasswordValid = true;
-
-    if (email && !validateEmail(email)) {
-      isEmailValid = false;
-    }
-
-    if (password && password.length < 7) {
-      isPasswordValid = false;
-    }
-
-    setIsJoinButtonDisabled(
-      !(isEmailValid && isPasswordValid && email && password)
-    );
+    setIsLoginButtonDisabled(true);
+    setErrorMessage("");
   };
 
   const validateEmail = (email) => {
@@ -58,19 +51,49 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email, password: password }),
+        body: JSON.stringify({ email, password }),
       });
 
-      if (response.status === 200) {
-        window.location.href = "/";
-      } else if (response.status === 400) {
-        setErrorMessage(
-          "로그인에 실패하였습니다. 아이디와 비밀번호를 확인하세요."
-        );
+      console.log("응답 상태 코드:", response.status);
+
+      const contentType = response.headers.get("content-type");
+      console.log("응답 Content-Type:", contentType);
+
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        const responseData = await response.json();
+        console.log("서버 응답:", responseData);
+
+        if (response.status === 200) {
+          localStorage.setItem("id", responseData.id);
+          alert("로그인 성공!");
+          navigate(`/`);
+        } else if (response.status === 400) {
+          setErrorMessage("요청이 잘못되었습니다. 입력 데이터를 확인하세요.");
+        } else if (response.status === 401) {
+          setErrorMessage(
+            "로그인에 실패하였습니다. 아이디와 비밀번호를 확인하세요."
+          );
+        } else {
+          setErrorMessage(
+            "서버 오류가 발생하였습니다. 나중에 다시 시도하세요."
+          );
+        }
       } else {
-        setErrorMessage("서버 오류가 발생하였습니다. 나중에 다시 시도하세요.");
+        const responseText = await response.text();
+        console.log("서버 응답 (텍스트):", responseText);
+
+        if (response.status === 401) {
+          setErrorMessage(
+            "로그인에 실패하였습니다. 아이디와 비밀번호를 확인하세요."
+          );
+        } else {
+          setErrorMessage(
+            "서버 오류가 발생하였습니다. 나중에 다시 시도하세요."
+          );
+        }
       }
     } catch (error) {
+      console.error("서버 요청 오류:", error);
       setErrorMessage(
         "네트워크 오류가 발생하였습니다. 인터넷 연결을 확인하세요."
       );
@@ -80,7 +103,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginBorder>
-        <img src="../img/text_logo.png" alt="로고" class="logo" />
+        <img src="../img/text_logo.png" alt="로고" className="logo" />
         <form
           className="loginForm"
           onSubmit={handleSubmit}
@@ -102,13 +125,13 @@ const Login = () => {
               onChange={handlePasswordChange}
             />
           </div>
-          <div className="buttonBox">
+          <div className="loginBox">
             <button
               type="submit"
               className={
-                isJoinButtonDisabled ? "disabledButton" : "enabledButton"
+                isLoginButtonDisabled ? "disabledButton" : "enabledButton"
               }
-              disabled={isJoinButtonDisabled}
+              disabled={isLoginButtonDisabled}
             >
               로그인
             </button>
@@ -162,7 +185,7 @@ const LoginBorder = styled.div`
   .errorMessage {
     color: red;
     font-size: 11px;
-    margin: 0 0 6px 2px;
+    margin: 6px 0 6px 2px;
   }
 
   input {
@@ -230,7 +253,7 @@ const LoginBorder = styled.div`
     }
     span {
       display: inline-block;
-      margin: 3%;
+      margin: 5%;
       color: #757575;
       font-size: 13px;
       font-weight: bold;

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -7,10 +8,52 @@ const StyledLink = styled(Link)`
 `;
 
 const ProfileContent = () => {
+  const [profile, setProfile] = useState({
+    name: "",
+    nickname: "",
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const memberId = localStorage.getItem("id");
+
+    const fetchProfileInfo = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8080/insta/user/${memberId}/info`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setProfile({
+          name: data.name,
+          nickname: data.nickname,
+        });
+      } catch (error) {
+        console.error("프로필을 불러오는 데에 오류가 발생했습니다.", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileInfo();
+  }, []);
+
   return (
     <Profilecontentcontainer>
-      <div className="nickname">
-        <h3>조채연</h3>
+      <div>
+        <div className="nickname">
+          <b>{loading ? "Loading..." : profile.nickname}</b>
+        </div>
+        <div className="name">{loading ? "Loading..." : profile.name}</div>
       </div>
       <div className="editBtn">
         <StyledLink to="/profileEdit">Edit Profile</StyledLink>
@@ -39,6 +82,13 @@ export default ProfileContent;
 const Profilecontentcontainer = styled.div`
   @media all and (max-width: 767px) {
     font-size: 80%;
+  }
+  .nickname {
+    font-size: 22px;
+  }
+  .name {
+    font-size: 20px;
+    margin-bottom: 10px;
   }
   .editBtn {
     width: 100px;
